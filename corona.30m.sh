@@ -31,7 +31,7 @@ echo "$counties" | jq -r '.cases[] | [.name, .confirmed, .dead, .recovered] | @t
 echo "---"
 echo "Hospitalized"
 echo "$hospitalized" | jq -r '.current.hospitals[] | [.name, .hospitalized, .respiratory, .infectedEmployees, .quarantineEmployees] | @tsv' |
-    while IFS=$'\t' read -r name hospitalized infectedEmployees quarantineEmployees; do
+    while IFS=$'\t' read -r name hospitalized respiratory infectedEmployees quarantineEmployees; do
         echo "$name: $hospitalized"
         echo "----"
         echo "--Hospitalized: $hospitalized"
