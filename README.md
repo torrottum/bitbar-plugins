@@ -1,6 +1,6 @@
 # Bitbar plugins
 
-## Corona tracker
+## Corona Virus tracker
 ![Corona Tracker](screenshots/corona.png)
 
-Shows corona cases and hospital information in Norway based on [data from VG](https://www.vg.no/spesial/2020/corona-viruset/)
+Shows corona virus cases and hospital information in Norway based on [data from VG](https://www.vg.no/spesial/2020/corona-viruset/)
