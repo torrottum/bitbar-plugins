@@ -5,7 +5,6 @@
 PATH="/usr/local/bin:$PATH"
 
 counties=$(curl -s "https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview/?region=county")
-municipalities=$(curl -s "https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview/?region=municipality")
 hospitalized=$(curl -s "https://redutv-api.vg.no/corona/v1/hospitalized")
 
 echo "🦠 $(echo "$counties" | jq -r '.totals.confirmed // "-"')"
@@ -20,7 +19,8 @@ echo "Infected Employees: $(echo "$hospitalized" | jq -r '.current.total.infecte
 echo "Quarantined Employees: $(echo "$hospitalized" | jq -r '.current.total.quarantineEmployees // "-"')"
 echo "---"
 echo "Infected per county"
-echo "$counties" | jq -r '.cases[] | [.name, .confirmed // "-", .dead // "-", .recovered // "-"] | @tsv' |
+echo "$counties" | jq -r '.cases | sort_by(.confirmed) | reverse[] |
+    [.name, .confirmed // "-", .dead // "-", .recovered // "-"] | @tsv' |
     while IFS=$'\t' read -r name confirmed dead recovered; do
         echo "$name: $confirmed"
         echo "----"
@@ -30,7 +30,8 @@ echo "$counties" | jq -r '.cases[] | [.name, .confirmed // "-", .dead // "-", .r
     done
 echo "---"
 echo "Hospitalized"
-echo "$hospitalized" | jq -r '.current.hospitals[] | [.name, .hospitalized // "-", .respiratory // "-", .infectedEmployees // "-", .quarantineEmployees // "-"] | @tsv' |
+echo "$hospitalized" | jq -r '.current.hospitals | sort_by(.hospitalized) | reverse[] |
+    [.name, .hospitalized // "-", .respiratory // "-", .infectedEmployees // "-", .quarantineEmployees // "-"] | @tsv' |
     while IFS=$'\t' read -r name hospitalized respiratory infectedEmployees quarantineEmployees; do
         echo "$name: $hospitalized"
         echo "----"
