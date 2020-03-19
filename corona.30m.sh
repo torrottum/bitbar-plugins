@@ -4,8 +4,10 @@
 
 PATH="/usr/local/bin:$PATH"
 
-counties=$(curl -s "https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview/?region=county")
-hospitalized=$(curl -s "https://redutv-api.vg.no/corona/v1/hospitalized")
+userAgent="github.com/torrottum/bitbar-plugins/blob/master/corona.30m.sh"
+
+counties=$(curl -s -A "$userAgent" "https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview/?region=county")
+hospitalized=$(curl -s -A "$userAgent" "https://redutv-api.vg.no/corona/v1/hospitalized")
 
 echo "🦠 $(echo "$counties" | jq -r '.totals.confirmed // "-"')"
 echo "---"
